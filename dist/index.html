@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>董思婕 | AI 交互与多模态应用作品集</title>
+  <meta name="description" content="董思婕的 AI 交互与多模态应用作品集，包含睡前情绪整理助手、MiniCPM-o 多模态学习教练和 RAG 交互叙事系统。">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d1b2a'/%3E%3Cpath d='M16 43V21h11c8 0 14 4 14 11s-6 11-14 11H16Zm8-7h3c4 0 7-1 7-4s-3-4-7-4h-3v8Z' fill='%23f4d35e'/%3E%3Ccircle cx='47' cy='20' r='5' fill='%2343d9ad'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #13202f;
+      --muted: #5d6978;
+      --paper: #f7f4ee;
+      --panel: #ffffff;
+      --line: #ddd7cc;
+      --blue: #174a7c;
+      --teal: #008c7a;
+      --gold: #d89c12;
+      --rose: #b84a62;
+      --shadow: 0 18px 50px rgba(32, 43, 58, .12);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(120deg, rgba(23, 74, 124, .08), transparent 42%),
+        linear-gradient(300deg, rgba(0, 140, 122, .10), transparent 35%),
+        var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; }
+
+    .page {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 34px 0 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: #122033;
+      color: #f4d35e;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      letter-spacing: 0;
+      flex: 0 0 auto;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .nav-link,
+    .button {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .72);
+      border-radius: 8px;
+      padding: 9px 13px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 650;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .nav-link:hover,
+    .button:hover {
+      border-color: #b9b0a2;
+      background: #fff;
+    }
+
+    .hero {
+      min-height: 560px;
+      padding: 56px 0 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(330px, .95fr);
+      gap: 30px;
+      align-items: start;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 1.04;
+      letter-spacing: 0;
+      max-width: 760px;
+    }
+
+    .hero p {
+      margin: 22px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button.primary {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .copy-note {
+      min-height: 24px;
+      margin-top: 10px;
+      color: var(--teal);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .profile-panel {
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 20px;
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .signal {
+      min-height: 96px;
+      border-radius: 8px;
+      padding: 14px;
+      background: #f8faf9;
+      border: 1px solid #e4e5df;
+    }
+
+    .signal b {
+      display: block;
+      font-size: 25px;
+      line-height: 1;
+      margin-bottom: 9px;
+      color: var(--blue);
+    }
+
+    .signal span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .capability-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .capability-list li {
+      border: 1px solid #d6d1c7;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 13px;
+      color: #263648;
+      background: #fff;
+    }
+
+    section {
+      padding: 44px 0;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+      font-size: 15px;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .project-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      min-height: 470px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 12px 30px rgba(24, 33, 46, .07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 6px;
+      background: var(--accent, var(--blue));
+    }
+
+    .project-card h3 {
+      margin: 14px 0 8px;
+      font-size: 24px;
+      line-height: 1.22;
+      letter-spacing: 0;
+    }
+
+    .tag {
+      width: fit-content;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: color-mix(in srgb, var(--accent, var(--blue)) 12%, white);
+      color: color-mix(in srgb, var(--accent, var(--blue)) 78%, black);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .project-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .project-card ul {
+      margin: 18px 0 0;
+      padding-left: 20px;
+      color: #243142;
+      font-size: 15px;
+    }
+
+    .project-card li + li {
+      margin-top: 8px;
+    }
+
+    .evidence {
+      margin-top: auto;
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .evidence a {
+      text-decoration: none;
+      border-radius: 8px;
+      border: 1px solid #d8d2c8;
+      padding: 8px 10px;
+      font-size: 14px;
+      font-weight: 700;
+      background: #fbfaf7;
+    }
+
+    .evidence a:hover {
+      background: #fff;
+      border-color: #afa698;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: .86fr 1.14fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .note-box,
+    .timeline {
+      background: rgba(255, 255, 255, .8);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .note-box h3,
+    .timeline h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .note-box p {
+      margin: 0 0 12px;
+      color: var(--muted);
+    }
+
+    .script-box {
+      white-space: pre-wrap;
+      background: #102033;
+      color: #f9fbff;
+      border-radius: 8px;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .timeline ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    .timeline li + li {
+      margin-top: 12px;
+    }
+
+    .timeline strong {
+      display: block;
+    }
+
+    .timeline span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    footer {
+      padding: 34px 0 46px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      header,
+      .hero,
+      .details {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        display: block;
+      }
+
+      nav {
+        justify-content: flex-start;
+        margin-top: 18px;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 24px, 1160px);
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .signal-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        display: block;
+      }
+
+      .section-title p {
+        margin-top: 10px;
+      }
+
+      .project-card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a class="brand" href="#top" aria-label="回到首页">
+        <span class="mark">DS</span>
+        <span>
+          <strong>董思婕</strong>
+          <span>AI 交互 · 多模态应用 · RAG 原型</span>
+        </span>
+      </a>
+      <nav aria-label="页面导航">
+        <a class="nav-link" href="#projects">项目</a>
+        <a class="nav-link" href="#hr">HR 文案</a>
+        <a class="nav-link" href="https://github.com/ninghan11111-ai" target="_blank" rel="noreferrer">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <h1 id="hero-title">AI 交互与多模态应用作品集</h1>
+          <p>三个可点击验证的项目，集中展示从用户场景、对话流程、模型接入到 demo 落地的完整能力：睡前情绪整理、学习教练和 RAG 叙事创作。</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">查看项目</a>
+            <button class="button" type="button" data-copy-hr>复制给 HR 的简介</button>
+          </div>
+          <div class="copy-note" aria-live="polite" data-copy-note></div>
+        </div>
+
+        <aside class="profile-panel" aria-label="作品集概览">
+          <div class="signal-grid">
+            <div class="signal">
+              <b>3</b>
+              <span>个项目入口，覆盖产品原型、开源代码和视频展示</span>
+            </div>
+            <div class="signal">
+              <b>AI</b>
+              <span>聚焦 LLM 对话、多模态输入、RAG 和语音交互</span>
+            </div>
+            <div class="signal">
+              <b>Demo</b>
+              <span>每个项目保留可查看链接，方便面试前快速核验</span>
+            </div>
+            <div class="signal">
+              <b>HR</b>
+              <span>首屏直接说明项目价值，不需要先读代码仓库</span>
+            </div>
+          </div>
+          <ul class="capability-list" aria-label="能力标签">
+            <li>AI 产品原型</li>
+            <li>Prompt / 对话流程</li>
+            <li>MiniCPM-o 4.5</li>
+            <li>多模态输入</li>
+            <li>RAG 交互叙事</li>
+            <li>前端 Demo</li>
+            <li>语音与摄像头场景</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section id="projects" aria-labelledby="projects-title">
+        <div class="section-title">
+          <h2 id="projects-title">代表项目</h2>
+          <p>每张卡片都按 HR 的阅读路径组织：项目定位、核心能力和可验证材料。</p>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" style="--accent: var(--rose)">
+            <span class="tag">情绪陪伴 · 睡前整理</span>
+            <h3>《今天到这儿》</h3>
+            <p>面向睡前刷手机、越催越焦虑的场景，用渐进式 AI 对话帮助用户把当天的杂念收束、归纳并放下。</p>
+            <ul>
+              <li>围绕“聊够了”“收起来”“继续”设计节奏，不做强提醒。</li>
+              <li>把用户表达整理成可放下的三段内容，降低睡前认知负担。</li>
+              <li>支持碎碎念、明日再说、焦虑句改写和节奏控制。</li>
+            </ul>
+            <div class="evidence" aria-label="项目链接">
+              <a href="https://ninghan11111-ai.github.io/jintian-daozher/" target="_blank" rel="noreferrer">打开 Demo</a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--accent: var(--blue)">
+            <span class="tag">MiniCPM-o · 多模态学习教练</span>
+            <h3>StepMentor</h3>
+            <p>基于 MiniCPM-o 4.5 的多模态苏格拉底学习教练，面向高中数学自主学习场景，逐步追问替代直接公布答案。</p>
+            <ul>
+              <li>支持示例题、图片上传、摄像头拍摄和语音输入。</li>
+              <li>展示学生当前卡点、过程证据、理解进度和阶段性学习卡。</li>
+              <li>支持实时课堂链路，展示 Gateway、上下文、推理延迟、LLM/TTS 和视觉 token 等运行指标。</li>
+            </ul>
+            <div class="evidence" aria-label="项目链接">
+              <a href="https://github.com/ninghan11111-ai/StepMentor" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="https://pan.baidu.com/s/14joxhUiBXPe8dzKxTVMPuA?pwd=rHV3" target="_blank" rel="noreferrer">视频</a>
+            </div>
+          </article>
+
+          <article class="project-card" style="--accent: var(--teal)">
+            <span class="tag">RAG · 交互叙事</span>
+            <h3>AI Editor / RAG 叙事系统</h3>
+            <p>面向内容创作和叙事编辑的 AI 交互工具，用 RAG 组织素材、上下文和生成结果，辅助创作者推进故事表达。</p>
+            <ul>
+              <li>通过知识检索增强生成内容的上下文一致性。</li>
+              <li>把编辑、检索和生成流程放进可操作的交互原型。</li>
+              <li>提供代码仓库与视频展示，便于查看功能链路。</li>
+            </ul>
+            <div class="evidence" aria-label="项目链接">
+              <a href="https://github.com/ninghan11111-ai/ai-editor" target="_blank" rel="noreferrer">GitHub</a>
+              <a href="https://365.kdocs.cn/l/clunube9k487" target="_blank" rel="noreferrer">视频展示</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="hr" aria-labelledby="hr-title">
+        <div class="section-title">
+          <h2 id="hr-title">给 HR 的发送文案</h2>
+          <p>复制后把“作品集链接”替换成当前页面链接即可。</p>
+        </div>
+        <div class="details">
+          <div class="note-box">
+            <h3>发送建议</h3>
+            <p>不要把 GitHub、网盘、文档链接分散发送。先发这个总入口，再让 HR 从项目卡片进入代码、Demo 或视频。</p>
+            <p>如果岗位偏算法，可以把 StepMentor 放在第一句；如果岗位偏产品/前端/AI 应用，可以保留当前顺序。</p>
+          </div>
+          <pre class="script-box" data-hr-text>您好，这是我的 AI 交互与多模态应用作品集：作品集链接
+
+里面整理了 3 个可验证项目：
+1. 《今天到这儿》：睡前情绪整理与 AI 陪伴产品 demo。
+2. StepMentor：基于 MiniCPM-o 4.5 的多模态苏格拉底学习教练，包含 GitHub 和视频展示。
+3. AI Editor / RAG 叙事系统：面向内容创作的 RAG 交互叙事工具，包含代码仓库和视频展示。
+
+作品集里每个项目都附有可打开的 demo、代码或视频，方便您快速了解我的 AI 产品设计、模型接入和工程实现能力。</pre>
+        </div>
+      </section>
+
+      <section aria-labelledby="read-title">
+        <div class="section-title">
+          <h2 id="read-title">阅读路径</h2>
+          <p>给面试官一个自然的浏览顺序，也让你的项目显得不是零散链接。</p>
+        </div>
+        <div class="timeline">
+          <h3>建议浏览顺序</h3>
+          <ol>
+            <li>
+              <strong>先看《今天到这儿》</strong>
+              <span>快速理解你的用户洞察、对话节奏和 AI 产品原型能力。</span>
+            </li>
+            <li>
+              <strong>再看 StepMentor</strong>
+              <span>展示你能把多模态模型、语音、摄像头和学习场景组织成完整系统。</span>
+            </li>
+            <li>
+              <strong>最后看 AI Editor / RAG 叙事系统</strong>
+              <span>补充 RAG、内容编辑和交互式创作方向的工程证据。</span>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div>董思婕 · AI 交互与多模态应用作品集</div>
+    </footer>
+  </div>
+
+  <script>
+    const button = document.querySelector("[data-copy-hr]");
+    const note = document.querySelector("[data-copy-note]");
+    const text = document.querySelector("[data-hr-text]").innerText;
+
+    button.addEventListener("click", async () => {
+      const link = window.location.href;
+      const message = text.replace("作品集链接", link);
+
+      try {
+        await navigator.clipboard.writeText(message);
+        note.textContent = "已复制，可以直接发给 HR。";
+      } catch (error) {
+        note.textContent = "复制失败，请手动复制页面下方文案。";
+      }
+    });
+  </script>
+</body>
+</html>
