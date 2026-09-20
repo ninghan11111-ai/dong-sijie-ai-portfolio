@@ -76,13 +76,6 @@
       line-height: 1.2;
     }
 
-    .brand span {
-      display: block;
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 2px;
-    }
-
     nav {
       display: flex;
       flex-wrap: wrap;
@@ -126,13 +119,6 @@
       max-width: 760px;
     }
 
-    .hero p {
-      margin: 22px 0 0;
-      max-width: 720px;
-      color: var(--muted);
-      font-size: 18px;
-    }
-
     .hero-actions {
       margin-top: 30px;
       display: flex;
@@ -146,14 +132,6 @@
       border-color: var(--ink);
     }
 
-    .copy-note {
-      min-height: 24px;
-      margin-top: 10px;
-      color: var(--teal);
-      font-size: 14px;
-      font-weight: 650;
-    }
-
     .profile-panel {
       background: rgba(255, 255, 255, .78);
       border: 1px solid var(--line);
@@ -164,7 +142,7 @@
 
     .signal-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
       margin-bottom: 18px;
     }
@@ -320,14 +298,6 @@
       border-color: #afa698;
     }
 
-    .details {
-      display: grid;
-      grid-template-columns: .86fr 1.14fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .note-box,
     .timeline {
       background: rgba(255, 255, 255, .8);
       border: 1px solid var(--line);
@@ -335,26 +305,9 @@
       padding: 20px;
     }
 
-    .note-box h3,
     .timeline h3 {
       margin: 0 0 12px;
       font-size: 20px;
-    }
-
-    .note-box p {
-      margin: 0 0 12px;
-      color: var(--muted);
-    }
-
-    .script-box {
-      white-space: pre-wrap;
-      background: #102033;
-      color: #f9fbff;
-      border-radius: 8px;
-      padding: 16px;
-      font-size: 14px;
-      line-height: 1.7;
-      margin: 0;
     }
 
     .timeline ol {
@@ -384,8 +337,7 @@
 
     @media (max-width: 920px) {
       header,
-      .hero,
-      .details {
+      .hero {
         grid-template-columns: 1fr;
       }
 
@@ -439,14 +391,10 @@
     <header>
       <a class="brand" href="#top" aria-label="回到首页">
         <span class="mark">DS</span>
-        <span>
-          <strong>董思婕</strong>
-          <span>AI 交互 · 多模态应用 · RAG 原型</span>
-        </span>
+        <strong>董思婕</strong>
       </a>
       <nav aria-label="页面导航">
         <a class="nav-link" href="#projects">项目</a>
-        <a class="nav-link" href="#hr">HR 文案</a>
         <a class="nav-link" href="https://github.com/ninghan11111-ai" target="_blank" rel="noreferrer">GitHub</a>
       </nav>
     </header>
@@ -455,12 +403,9 @@
       <section class="hero" aria-labelledby="hero-title">
         <div>
           <h1 id="hero-title">董思婕作品集</h1>
-          <p>三个可点击验证的项目，集中展示从用户场景、对话流程、模型接入到 demo 落地的完整能力：睡前情绪整理、学习教练和 RAG 叙事创作。</p>
           <div class="hero-actions">
             <a class="button primary" href="#projects">查看项目</a>
-            <button class="button" type="button" data-copy-hr>复制给 HR 的简介</button>
           </div>
-          <div class="copy-note" aria-live="polite" data-copy-note></div>
         </div>
 
         <aside class="profile-panel" aria-label="作品集概览">
@@ -476,10 +421,6 @@
             <div class="signal">
               <b>Demo</b>
               <span>每个项目保留可查看链接，方便面试前快速核验</span>
-            </div>
-            <div class="signal">
-              <b>HR</b>
-              <span>首屏直接说明项目价值，不需要先读代码仓库</span>
             </div>
           </div>
           <ul class="capability-list" aria-label="能力标签">
@@ -547,28 +488,6 @@
         </div>
       </section>
 
-      <section id="hr" aria-labelledby="hr-title">
-        <div class="section-title">
-          <h2 id="hr-title">给 HR 的发送文案</h2>
-          <p>复制后把“作品集链接”替换成当前页面链接即可。</p>
-        </div>
-        <div class="details">
-          <div class="note-box">
-            <h3>发送建议</h3>
-            <p>不要把 GitHub、网盘、文档链接分散发送。先发这个总入口，再让 HR 从项目卡片进入代码、Demo 或视频。</p>
-            <p>如果岗位偏算法，可以把 StepMentor 放在第一句；如果岗位偏产品/前端/AI 应用，可以保留当前顺序。</p>
-          </div>
-          <pre class="script-box" data-hr-text>您好，这是我的作品集：作品集链接
-
-里面整理了 3 个可验证项目：
-1. 《今天到这儿》：睡前情绪整理与 AI 陪伴产品 demo。
-2. StepMentor：基于 MiniCPM-o 4.5 的多模态苏格拉底学习教练，包含 GitHub 和视频展示。
-3. AI Editor / RAG 叙事系统：面向内容创作的 RAG 交互叙事工具，包含代码仓库和视频展示。
-
-作品集里每个项目都附有可打开的 demo、代码或视频，方便您快速了解我的 AI 产品设计、模型接入和工程实现能力。</pre>
-        </div>
-      </section>
-
       <section aria-labelledby="read-title">
         <div class="section-title">
           <h2 id="read-title">阅读路径</h2>
@@ -598,23 +517,5 @@
       <div>董思婕作品集</div>
     </footer>
   </div>
-
-  <script>
-    const button = document.querySelector("[data-copy-hr]");
-    const note = document.querySelector("[data-copy-note]");
-    const text = document.querySelector("[data-hr-text]").innerText;
-
-    button.addEventListener("click", async () => {
-      const link = window.location.href;
-      const message = text.replace("作品集链接", link);
-
-      try {
-        await navigator.clipboard.writeText(message);
-        note.textContent = "已复制，可以直接发给 HR。";
-      } catch (error) {
-        note.textContent = "复制失败，请手动复制页面下方文案。";
-      }
-    });
-  </script>
 </body>
 </html>
